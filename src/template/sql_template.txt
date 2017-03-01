@@ -11,7 +11,7 @@ ${{baseColumn}}
 ${{resultMapResults}}
     </resultMap>
 
-    <insert id="insert" parameterType="${{packageDOClass}}">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="${{primaryKeyAttr}}" parameterType="${{packageDOClass}}">
         INSERT INTO ${{table}} (
             <include refid="base_column" />
         )
