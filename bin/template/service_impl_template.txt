@@ -1,0 +1,134 @@
+/*
+ * 文件名: ${{className}}.java
+ * 版权: Copyright 2017 中星宝 Tech. Co. Ltd. All Rights Reserved.
+ */
+package ${{package}};
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jifeng.module2.vo.PageVO;
+import ${{packageDOClass}};
+import ${{packageVOClass}};
+import ${{packageQueryClass}};
+import ${{packageDaoClass}};
+import ${{packageServiceClass}};
+
+/**
+ * ${{comment}} service实现
+ * <p>
+ * @author ${{author}}
+ * @version [1.0.0, ${{date}}]
+ * @see [<相关类>/<相关方法>]
+ * @since [<产品>/<模块版本>]
+ */
+@Service
+public class ${{className}} implements ${{classService}} {
+
+    @Autowired
+    private ${{classDao}} dao;
+
+    private static final Logger logger = LoggerFactory.getLogger(${{className}}.class);
+
+    /**
+     * 新增
+     * @param obj
+     * @return
+     */
+    public int insert(${{classDO}} obj) throws Exception {
+        try {
+            return dao.insert(obj);
+        } catch (Exception e) {
+            logger.error("insert error ： " + obj.toString() + "\n" + e);
+            throw e;
+        }
+    }
+
+    /**
+     * 删除
+     * @param obj
+     * @return
+     */
+    public int delete(${{classDO}} obj) throws Exception {
+        try {
+            return dao.delete(obj);
+        } catch (Exception e) {
+            logger.error("delete error ： " + obj.toString() + "\n" + e);
+            throw e;
+        }
+    }
+
+    /**
+     * 更新
+     * @param obj
+     * @return
+     */
+    public int update(${{classDO}} obj) throws Exception {
+        try {
+            return dao.update(obj);
+        } catch (Exception e) {
+            logger.error("update error ： " + obj.toString() + "\n" + e);
+            throw e;
+        }
+    }
+
+    /**
+     * 根据id查询对象
+     * @param id
+     * @return
+     */
+    public ${{classVO}} get(${{primaryKeyType}} ${{primaryKeyAttr}}) throws Exception {
+        try {
+            return dao.get(${{primaryKeyAttr}});
+        } catch (Exception e) {
+            logger.error("get error ： " + id + "\n" + e);
+            throw e;
+        }
+    }
+
+    /**
+     * 查询 list
+     * @param obj
+     * @return
+     */
+    public List<${{classVO}}> list(${{classQuery}} obj) throws Exception {
+        try {
+            if (null != obj) { // 查list就设置分页参数为空
+                obj.setPage(null);
+            }
+            return dao.list(obj);
+        } catch (Exception e) {
+            logger.error("list error ： " + obj.toString() + "\n" + e);
+            throw e;
+        }
+    }
+
+    /**
+     * 分页查询
+     * @param obj
+     * @return
+     */
+    public PageVO<${{classVO}}> listPage(${{classQuery}} obj) throws Exception {
+        try {
+            PageVO<${{classVO}}> pageVO = new PageVO<${{classVO}}>();
+            obj.convertLimit(); // 分页码处理为mysql limit
+            long count = dao.count(obj); // 总数据
+            pageVO.setTotal(count);
+            if (0 == count) {
+                pageVO.setList(new ArrayList<${{classVO}}>());
+            } else {
+                pageVO.setList(dao.list(obj));
+            }
+            return pageVO;
+        } catch (Exception e) {
+            logger.error("listPage error ： " + obj.toString() + "\n" + e);
+            throw e;
+        }
+    }
+
+}

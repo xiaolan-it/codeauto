@@ -1,0 +1,151 @@
+/*
+ * 文件名: SwaggerTestController.java
+ * 版权: Copyright 2017 中星宝 Tech. Co. Ltd. All Rights Reserved.
+ */
+package ${{package}};
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.jifeng.web.common.AbstractControll;
+
+import com.jifeng.module2.vo.PageVO;
+import ${{packageDOClass}};
+import ${{packageVOClass}};
+import ${{packageQueryClass}};
+import ${{packageServiceClass}};
+import com.jifeng.web.common.ResponseConstants;
+import com.jifeng.web.vo.ResponseMessage;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiImplicitParam;
+import com.wordnik.swagger.annotations.ApiImplicitParams;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+
+/**
+ * ${{comment}} Controller
+ * @author ${{author}}
+ * @version [<版本号>, ${{date}}]
+ * @see [<相关类>/<相关方法>]
+ * @since [<产品>/<模块版本>]
+ */
+@Controller
+@RequestMapping(value = "/${{url}}", produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(value = "${{className}}", description = "${{comment}} 接口")
+public class ${{className}} extends AbstractControll {
+
+    @Autowired
+    private ${{classService}} service;
+
+    /**
+     * 添加
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST, value = "")
+    @ApiOperation(value = "增加", notes = "insert")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "Accept-token", value = "token", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "Accept-version", value = "接口版本号", defaultValue = "1.0.0", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "User-Agent", value = "客户端信息", dataType = "String", defaultValue = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1", required = true) })
+    public ResponseMessage<String> insert(@RequestBody ${{classDO}} obj, HttpServletRequest request) {
+        ResponseMessage<String> result = new ResponseMessage<String>(ResponseConstants.OK);
+        try {
+            service.insert(obj);
+        } catch (Exception e) {
+            result = new ResponseMessage<String>(ResponseConstants.SERVER_EXCEPTION_500);
+        }
+        return result;
+    }
+
+    /**
+     * 删除
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.DELETE, value = "")
+    @ApiOperation(value = "删除", notes = "delete")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "Accept-token", value = "token", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "Accept-version", value = "接口版本号", defaultValue = "1.0.0", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "User-Agent", value = "客户端信息", dataType = "String", defaultValue = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1", required = true) })
+    public ResponseMessage<String> delete(@ApiParam(value = "${{primaryKeyAttr}}") @RequestParam(required = true) ${{primaryKeyType}} ${{primaryKeyAttr}}, HttpServletRequest request) {
+        ResponseMessage<String> result = new ResponseMessage<String>(ResponseConstants.OK);
+        try {
+            ${{classDO}} obj = new ${{classDO}}();
+            obj.set${{primaryKeyAttrUpper}}(${{primaryKeyAttr}});
+            service.delete(obj);
+        } catch (Exception e) {
+            result = new ResponseMessage<String>(ResponseConstants.SERVER_EXCEPTION_500);
+        }
+        return result;
+    }
+
+    /**
+     * 修改
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.PUT, value = "")
+    @ApiOperation(value = "更新", notes = "update")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "Accept-token", value = "token", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "Accept-version", value = "接口版本号", defaultValue = "1.0.0", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "User-Agent", value = "客户端信息", dataType = "String", defaultValue = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1", required = true) })
+    public ResponseMessage<String> update(@RequestBody ${{classDO}} obj, HttpServletRequest request) {
+        ResponseMessage<String> result = new ResponseMessage<String>(ResponseConstants.OK);
+        try {
+            service.update(obj);
+        } catch (Exception e) {
+            result = new ResponseMessage<String>(ResponseConstants.SERVER_EXCEPTION_500);
+        }
+        return result;
+    }
+
+    /**
+     * 查询对象
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, value = "/{${{primaryKeyAttr}}}")
+    @ApiOperation(value = "根据id查询", notes = "get")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "Accept-token", value = "token", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "Accept-version", value = "接口版本号", defaultValue = "1.0.0", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "User-Agent", value = "客户端信息", dataType = "String", defaultValue = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1", required = true) })
+    public ResponseMessage<${{classVO}}> get(@PathVariable(value = "${{primaryKeyAttr}}", required = true) ${{primaryKeyType}} ${{primaryKeyAttr}}, HttpServletRequest request) {
+        ResponseMessage<${{classVO}}> result = new ResponseMessage<${{classVO}}>(ResponseConstants.OK);
+        try {
+            result.setData(service.get(${{primaryKeyAttr}}));
+        } catch (Exception e) {
+            result = new ResponseMessage<${{classVO}}>(ResponseConstants.SERVER_EXCEPTION_500);
+        }
+        return result;
+    }
+
+    /**
+     * 分页查询
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, value = "/list")
+    @ApiOperation(value = "分页查询", notes = "listPage")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "Accept-token", value = "token", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "Accept-version", value = "接口版本号", defaultValue = "1.0.0", dataType = "String", required = true),
+            @ApiImplicitParam(paramType = "header", name = "User-Agent", value = "客户端信息", dataType = "String", defaultValue = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1", required = true) })
+    public ResponseMessage<PageVO<${{classVO}}>> listPage(@ModelAttribute ${{classQuery}} obj, HttpServletRequest request) {
+        ResponseMessage<PageVO<${{classVO}}>> result = new ResponseMessage<PageVO<${{classVO}}>>(ResponseConstants.OK);
+        try {
+            result.setData(service.listPage(obj));;
+        } catch (Exception e) {
+            result = new ResponseMessage<PageVO<${{classVO}}>>(ResponseConstants.SERVER_EXCEPTION_500);
+        }
+        return result;
+    }
+
+}

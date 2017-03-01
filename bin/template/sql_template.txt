@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--${{comment}} sql-->
+<mapper namespace="${{packageDaoClass}}">
+
+    <sql id="base_column">
+${{baseColumn}}
+    </sql>
+
+    <resultMap id="${{classVO}}ResultMap" type="${{packageVOClass}}">
+${{resultMapResults}}
+    </resultMap>
+
+    <insert id="insert" parameterType="${{packageDOClass}}">
+        INSERT INTO ${{table}} (
+            <include refid="base_column" />
+        )
+        VALUES(
+${{insertValues}}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="${{packageDOClass}}">
+        DELETE 
+        FROM
+          ${{table}} 
+        WHERE ${{primaryKeyColumn}} = #{${{primaryKeyAttr}}}
+    </delete>
+    
+    <update id="update" parameterType="${{packageDOClass}}">
+        UPDATE ${{table}}  
+        <trim prefix="set" suffixOverrides=",">
+${{updateSetColumn}}
+        </trim>
+        WHERE ${{primaryKeyColumn}} = #{${{primaryKeyAttr}}}
+    </update>
+    
+    <select id="get" resultType="${{packageVOClass}}" parameterType="${{packageQueryClass}}">
+        SELECT 
+          ${{primaryKeyColumn}},
+          <include refid="base_column" />
+        FROM
+          ${{table}}
+        WHERE ${{primaryKeyColumn}} = #{${{primaryKeyAttr}}}
+    </select>
+    
+    <select id="count" resultType="long" parameterType="${{packageQueryClass}}">
+        SELECT 
+          COUNT(*) 
+        FROM
+          ${{table}}
+       <!-- 
+       <where>  
+            <if test=" xx !=null ">  
+                xx = #{xx}  
+            </if> 
+        </where>
+       --> 
+    </select>
+    
+    <select id="list" resultMap="${{classVO}}ResultMap" parameterType="${{packageQueryClass}}">
+        SELECT 
+          ${{primaryKeyColumn}},
+          <include refid="base_column" />
+        FROM
+          ${{table}}
+       <!-- 
+       <where>  
+            <if test=" xx !=null ">  
+                xx = #{xx}  
+            </if> 
+        </where>
+       --> 
+       
+        <!-- 分页 有分页参数才自动引入 -->
+        <include refid="common.sql_limit" />
+    </select>
+    
+</mapper>

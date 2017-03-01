@@ -1,0 +1,20 @@
+/*
+ * 文件名: ${{className}}.java
+ * 版权: Copyright 2017 中星宝 Tech. Co. Ltd. All Rights Reserved.
+ */
+package ${{package}};
+
+import com.jifeng.common.entity.EntityBase;
+
+/**
+ * ${{comment}} QUERY
+ * <p>
+ * @author ${{author}}
+ * @version [1.0.0, ${{date}}]
+ * @see [<相关类>/<相关方法>]
+ * @since [<产品>/<模块版本>]
+ */
+
+public class ${{className}} extends EntityBase {
+
+}
