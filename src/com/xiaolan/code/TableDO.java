@@ -48,7 +48,20 @@ public class TableDO {
      */
     private String columnDefault;
 
+    /**
+     * 是否是datetime类型
+     */
+    private boolean datetime;
+
     public TableDO() {}
+
+    public boolean isDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(boolean datetime) {
+        this.datetime = datetime;
+    }
 
     public String getColumnDefault() {
         return columnDefault;

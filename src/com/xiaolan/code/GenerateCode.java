@@ -509,7 +509,15 @@ public class GenerateCode {
         // 首字母大写
         attr = attr.substring(0, 1).toUpperCase() + attr.substring(1);
         String attrTemplate = "    public " + tableDO.getDataType() + " get" + attr + "() {\n";
-        attrTemplate += "        return " + tableDO.getAttrName() + ";\n";
+        if (tableDO.isDatetime()) { // 日期类型 if不为空就截取2017-02-05 02:55:20.0
+            attrTemplate += "        if (null != " + tableDO.getAttrName() + ") {\n";
+            attrTemplate += "            if (" + tableDO.getAttrName() + ".length() > 19)\n";
+            attrTemplate += "                return " + tableDO.getAttrName() + ".substring(0, 19);\n";
+            attrTemplate += "        }\n";
+            attrTemplate += "        return " + tableDO.getAttrName() + ";\n";
+        } else {
+            attrTemplate += "        return " + tableDO.getAttrName() + ";\n";
+        }
         attrTemplate += "    }\n\n";
         return attrTemplate;
     }

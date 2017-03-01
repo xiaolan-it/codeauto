@@ -102,6 +102,7 @@ public class DBUtil {
                 tableDO.setColumnComment(rs.getString(4));
                 tableDO.setPrimaryKey(rs.getString(5));
                 tableDO.setColumnDefault(rs.getString(6));
+                tableDO.setDatetime("datetime".equals(rs.getString(2)) ? true : false);
                 lists.add(tableDO);
             }
         } catch (Exception e) {
