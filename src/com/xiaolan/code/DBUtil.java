@@ -82,7 +82,7 @@ public class DBUtil {
         /**
          * 查看表字段详情sql
          */
-        String sql = "SELECT column_name,data_type,is_nullable,column_comment,column_key FROM COLUMNS WHERE table_schema=? AND table_name=?";
+        String sql = "SELECT column_name,data_type,is_nullable,column_comment,column_key,column_default FROM COLUMNS WHERE table_schema=? AND table_name=?";
         List<TableDO> lists = new ArrayList<TableDO>();
         PreparedStatement preStmt = null;
         ResultSet rs = null;
@@ -101,6 +101,7 @@ public class DBUtil {
                 tableDO.setIsNullAble(rs.getString(3));
                 tableDO.setColumnComment(rs.getString(4));
                 tableDO.setPrimaryKey(rs.getString(5));
+                tableDO.setColumnDefault(rs.getString(6));
                 lists.add(tableDO);
             }
         } catch (Exception e) {

@@ -110,9 +110,11 @@ public class GenerateCode {
             TableDO tableDO = null;
             for (int i = 0; i < list.size(); i++) {
                 tableDO = list.get(i);
-                attrsSb.append(getEntityAttrTemplate(tableDO, i == list.size() - 1 ? true : false, true)); // 所有属性
-                setgetSb.append(getEntityGetterTemplate(tableDO));// getter
-                setgetSb.append(getEntitySetterTemplate(tableDO, i == list.size() - 1 ? true : false));// setter
+                if (!"CURRENT_TIMESTAMP".equals(tableDO.getColumnDefault())) {
+                    attrsSb.append(getEntityAttrTemplate(tableDO, i == list.size() - 1 ? true : false, true)); // 所有属性
+                    setgetSb.append(getEntityGetterTemplate(tableDO));// getter
+                    setgetSb.append(getEntitySetterTemplate(tableDO, i == list.size() - 1 ? true : false));// setter
+                }
             }
             contentMap = getCommonMapContent(contentMap, tableModule);
             contentMap.put("package", packageStr);// 包字符串
@@ -218,8 +220,15 @@ public class GenerateCode {
                 tableDO = list.get(i);
                 if (!"PRI".equals(tableDO.getPrimaryKey())) {
                     baseColumn.append("        " + tableDO.getColumnName() + ((i == size - 1) ? "" : ",\n"));//
-                    insertValues.append("            #{" + tableDO.getAttrName() + "}" + ((i == size - 1) ? "" : ",\n"));// 最后一个去掉逗号
-                    updateSetColumn.append(getUpdateSetStr(tableDO.getColumnName(), tableDO.getAttrName()) + ((i == size - 1) ? "" : "\n"));
+                    // 时间有默认值得就 CURRENT_TIMESTAMP
+                    if ("CURRENT_TIMESTAMP".equals(tableDO.getColumnDefault())) {
+                        insertValues.append("            CURRENT_TIMESTAMP" + ((i == size - 1) ? "" : ",\n"));// 最后一个去掉逗号
+                        if (!"create_time".equals(tableDO.getColumnName()))
+                            updateSetColumn.append("            " + tableDO.getColumnName() + " = CURRENT_TIMESTAMP" + ((i == size - 1) ? "" : ",\n"));
+                    } else {
+                        insertValues.append("            #{" + tableDO.getAttrName() + "}" + ((i == size - 1) ? "" : ",\n"));// 最后一个去掉逗号
+                        updateSetColumn.append(getUpdateSetStr(tableDO.getColumnName(), tableDO.getAttrName()) + ((i == size - 1) ? "" : "\n"));
+                    }
                 }
                 resultMapResults.append("        <result property=\"" + tableDO.getAttrName() + "\" column=\"" + tableDO.getColumnName() + "\" />"
                         + ((i == size - 1) ? "" : "\n"));
@@ -448,12 +457,14 @@ public class GenerateCode {
     }
 
     /**
-     * 获取entity属性模板
+     * 获取entity属性模板<br>
+     * 时间有默认值CURRENT_TIMESTAMP的就不用创建属性了
      * @param tableDO 类属性详情
      * @param isLast 是否最后一个，最后一个就少一个\n换行，为了符合代码格式化
      * @return
      */
     private static String getEntityAttrTemplate(TableDO tableDO, boolean isLast, boolean required) {
+
         String attrTemplate = "    /**\n";
         attrTemplate += "     * " + tableDO.getColumnComment() + "\n";
         attrTemplate += "     */\n";

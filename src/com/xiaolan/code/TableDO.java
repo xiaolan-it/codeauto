@@ -43,7 +43,20 @@ public class TableDO {
      */
     private String attrName;
 
+    /**
+     * 字段默认值 时间默认值： CURRENT_TIMESTAMP，组装sql时就 = CURRENT_TIMESTAMP
+     */
+    private String columnDefault;
+
     public TableDO() {}
+
+    public String getColumnDefault() {
+        return columnDefault;
+    }
+
+    public void setColumnDefault(String columnDefault) {
+        this.columnDefault = columnDefault;
+    }
 
     public String getColumnName() {
         return columnName;
@@ -80,7 +93,7 @@ public class TableDO {
         } else {// String
             this.dataType = "String";
         }
-        
+
         // else if (-1 != ",char,".indexOf("," + dataType + ",")) {// char
         // this.dataType = "Character";
         // }
