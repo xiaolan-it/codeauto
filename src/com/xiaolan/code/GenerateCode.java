@@ -121,7 +121,7 @@ public class GenerateCode {
             contentMap.put("className", className);// 类名
             contentMap.put("attrs", attrsSb.toString());
             contentMap.put("setget", setgetSb.toString());
-            contentMap.put("toString", getEntityToStringTemplate(list, className));
+            contentMap.put("toString", getEntityToStringTemplate(list, className, true));
             FileUtils.writeFile(filePath, fileName, templateFileName, contentMap);
         }
 
@@ -159,7 +159,7 @@ public class GenerateCode {
             contentMap.put("className", className);// 类名
             contentMap.put("attrs", attrsSb.toString());
             contentMap.put("setget", setgetSb.toString());
-            contentMap.put("toString", getEntityToStringTemplate(list, className));
+            contentMap.put("toString", getEntityToStringTemplate(list, className, false));
             FileUtils.writeFile(filePath, fileName, templateFileName, contentMap);
         }
 
@@ -515,14 +515,20 @@ public class GenerateCode {
      * 获取entity toString方法 return 模板
      * @param list 所有属性集合
      * @param className 类名
+     * @param isNotDefaultAttr 是否需要生成有默认值得属性（主要是时间字段）true:不需要，false:需要
      * @return
      */
-    private static String getEntityToStringTemplate(List<TableDO> list, String className) {
+    private static String getEntityToStringTemplate(List<TableDO> list, String className, boolean isNotDefaultAttr) {
         String toString = "\"" + className + " [";
         TableDO table = null;
         for (int i = 0; i < list.size(); i++) {
             table = list.get(i);
-            toString += table.getAttrName() + "=\" + " + table.getAttrName() + " + \"" + (i != list.size() - 1 ? ", " : "");
+            if (isNotDefaultAttr) {
+                if (!"CURRENT_TIMESTAMP".equals(table.getColumnDefault()))
+                    toString += table.getAttrName() + "=\" + " + table.getAttrName() + " + \"" + (i != list.size() - 1 ? ", " : "");
+            } else {
+                toString += table.getAttrName() + "=\" + " + table.getAttrName() + " + \"" + (i != list.size() - 1 ? ", " : "");
+            }
         }
         toString += "]\"";
         return toString;
