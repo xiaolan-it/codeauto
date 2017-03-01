@@ -3,8 +3,9 @@
 <!--${{comment}} sql-->
 <mapper namespace="${{packageDaoClass}}">
 
-    <sql id="base_column">
-${{baseColumn}}
+    <!--带表别名，考虑多表查询时 -->
+    <sql id="select_base_column">
+${{selectBaseColumn}}
     </sql>
 
     <resultMap id="${{classVO}}ResultMap" type="${{packageVOClass}}">
@@ -13,7 +14,7 @@ ${{resultMapResults}}
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="${{primaryKeyAttr}}" parameterType="${{packageDOClass}}">
         INSERT INTO ${{table}} (
-            <include refid="base_column" />
+${{baseColumn}}
         )
         VALUES(
 ${{insertValues}}
@@ -37,18 +38,17 @@ ${{updateSetColumn}}
     
     <select id="get" resultType="${{packageVOClass}}" parameterType="${{packageQueryClass}}">
         SELECT 
-          ${{primaryKeyColumn}},
-          <include refid="base_column" />
+            <include refid="select_base_column" />
         FROM
-          ${{table}}
-        WHERE ${{primaryKeyColumn}} = #{${{primaryKeyAttr}}}
+          ${{table}} t
+        WHERE t.${{primaryKeyColumn}} = #{${{primaryKeyAttr}}}
     </select>
     
     <select id="count" resultType="long" parameterType="${{packageQueryClass}}">
         SELECT 
           COUNT(*) 
         FROM
-          ${{table}}
+          ${{table}} t
        <!-- 
        <where>  
             <if test=" xx !=null ">  
@@ -60,10 +60,9 @@ ${{updateSetColumn}}
     
     <select id="list" resultMap="${{classVO}}ResultMap" parameterType="${{packageQueryClass}}">
         SELECT 
-          ${{primaryKeyColumn}},
-          <include refid="base_column" />
+           <include refid="select_base_column" />
         FROM
-          ${{table}}
+          ${{table}} t
        <!-- 
        <where>  
             <if test=" xx !=null ">  

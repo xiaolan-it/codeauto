@@ -214,12 +214,14 @@ public class GenerateCode {
             StringBuffer insertValues = new StringBuffer();// 除主键外的属性 如#{name},#{age}
             StringBuffer resultMapResults = new StringBuffer();// resultMap 中所有的result
             StringBuffer updateSetColumn = new StringBuffer();// update语句中的 set中的 xx=#{xx}
+            StringBuffer selectBaseColumn = new StringBuffer();// 查询单对象的字段匹配属性
             TableDO tableDO = null;
             int size = list.size();
             for (int i = 0; i < size; i++) {
                 tableDO = list.get(i);
+                selectBaseColumn.append("        t." + tableDO.getColumnName() + "    " + tableDO.getAttrName() + ((i == size - 1) ? "" : ",\n"));
                 if (!"PRI".equals(tableDO.getPrimaryKey())) {
-                    baseColumn.append("        " + tableDO.getColumnName() + ((i == size - 1) ? "" : ",\n"));//
+                    baseColumn.append("            " + tableDO.getColumnName() + ((i == size - 1) ? "" : ",\n"));//
                     // 时间有默认值得就 CURRENT_TIMESTAMP
                     if ("CURRENT_TIMESTAMP".equals(tableDO.getColumnDefault())) {
                         insertValues.append("            CURRENT_TIMESTAMP" + ((i == size - 1) ? "" : ",\n"));// 最后一个去掉逗号
@@ -230,12 +232,13 @@ public class GenerateCode {
                         updateSetColumn.append(getUpdateSetStr(tableDO.getColumnName(), tableDO.getAttrName()) + ((i == size - 1) ? "" : "\n"));
                     }
                 }
-                resultMapResults.append("        <result property=\"" + tableDO.getAttrName() + "\" column=\"" + tableDO.getColumnName() + "\" />"
+                resultMapResults.append("        <result property=\"" + tableDO.getAttrName() + "\" column=\"" + tableDO.getAttrName() + "\" />"
                         + ((i == size - 1) ? "" : "\n"));
             }
             contentMap = getCommonMapContent(contentMap, tableModule);
             contentMap.put("baseColumn", baseColumn.toString());
             contentMap.put("insertValues", insertValues.toString());
+            contentMap.put("selectBaseColumn", selectBaseColumn.toString());
             contentMap.put("resultMapResults", resultMapResults.toString());
             contentMap.put("updateSetColumn", updateSetColumn.toString());
             contentMap.put("comment", DBUtil.getTableComment(table));
