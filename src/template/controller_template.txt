@@ -141,7 +141,7 @@ public class ${{className}} extends AbstractControll {
     public ResponseMessage<PageVO<${{classVO}}>> listPage(@ModelAttribute ${{classQuery}} obj, HttpServletRequest request) {
         ResponseMessage<PageVO<${{classVO}}>> result = new ResponseMessage<PageVO<${{classVO}}>>(ResponseConstants.OK);
         try {
-            result.setData(service.listPage(obj));;
+            result.setData(service.listPage(obj));
         } catch (Exception e) {
             result = new ResponseMessage<PageVO<${{classVO}}>>(ResponseConstants.SERVER_EXCEPTION_500);
         }

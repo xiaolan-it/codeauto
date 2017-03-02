@@ -35,11 +35,6 @@ public class ${{className}} implements ${{classService}} {
 
     private static final Logger logger = LoggerFactory.getLogger(${{className}}.class);
 
-    /**
-     * 新增
-     * @param obj
-     * @return
-     */
     @Override
     public int insert(${{classDO}} obj) throws Exception {
         try {
@@ -50,11 +45,6 @@ public class ${{className}} implements ${{classService}} {
         }
     }
 
-    /**
-     * 删除
-     * @param obj
-     * @return
-     */
     @Override
     public int delete(${{classDO}} obj) throws Exception {
         try {
@@ -65,11 +55,6 @@ public class ${{className}} implements ${{classService}} {
         }
     }
 
-    /**
-     * 更新
-     * @param obj
-     * @return
-     */
     @Override
     public int update(${{classDO}} obj) throws Exception {
         try {
@@ -80,11 +65,6 @@ public class ${{className}} implements ${{classService}} {
         }
     }
 
-    /**
-     * 根据id查询对象
-     * @param id
-     * @return
-     */
     @Override
     public ${{classVO}} get(${{primaryKeyType}} ${{primaryKeyAttr}}) throws Exception {
         try {
@@ -95,11 +75,6 @@ public class ${{className}} implements ${{classService}} {
         }
     }
 
-    /**
-     * 查询 list
-     * @param obj
-     * @return
-     */
     @Override
     public List<${{classVO}}> list(${{classQuery}} obj) throws Exception {
         try {
@@ -113,11 +88,6 @@ public class ${{className}} implements ${{classService}} {
         }
     }
 
-    /**
-     * 分页查询
-     * @param obj
-     * @return
-     */
     @Override
     public PageVO<${{classVO}}> listPage(${{classQuery}} obj) throws Exception {
         try {
