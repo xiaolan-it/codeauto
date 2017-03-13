@@ -66,11 +66,11 @@ public class ${{className}} implements ${{classService}} {
     }
 
     @Override
-    public ${{classVO}} get(${{primaryKeyType}} ${{primaryKeyAttr}}) throws Exception {
+    public ${{classVO}} get(${{classQuery}} obj) throws Exception {
         try {
-            return dao.get(${{primaryKeyAttr}});
+            return dao.get(obj);
         } catch (Exception e) {
-            logger.error("get error ： " + id + "\n" + e);
+            logger.error("get error ： " + obj.toString() + "\n" + e);
             throw e;
         }
     }

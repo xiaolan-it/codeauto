@@ -47,7 +47,7 @@ public interface ${{className}} {
      * @param id
      * @return
      */
-    public ${{classVO}} get(${{primaryKeyType}} ${{primaryKeyAttr}}) throws Exception;
+    public ${{classVO}} get(${{classQuery}} obj) throws Exception;
 
     /**
      * 查询 list
