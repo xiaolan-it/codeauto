@@ -121,7 +121,9 @@ public class ${{className}} extends AbstractControll {
     public ResponseMessage<${{classVO}}> get(@PathVariable(value = "${{primaryKeyAttr}}", required = true) ${{primaryKeyType}} ${{primaryKeyAttr}}, HttpServletRequest request) {
         ResponseMessage<${{classVO}}> result = new ResponseMessage<${{classVO}}>(ResponseConstants.OK);
         try {
-            result.setData(service.get(${{primaryKeyAttr}}));
+            ${{classDO}} obj = new ${{classDO}}();
+            obj.set${{primaryKeyAttrUpper}}(${{primaryKeyAttr}});
+            result.setData(service.get(obj));
         } catch (Exception e) {
             result = new ResponseMessage<${{classVO}}>(ResponseConstants.SERVER_EXCEPTION_500);
         }

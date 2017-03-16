@@ -46,7 +46,7 @@ public interface ${{className}} {
      * @param id
      * @return
      */
-    public ${{classVO}} get(${{classQuery}} obj) throws Exception;
+    public ${{classVO}} get(${{classDO}} obj) throws Exception;
 
     /**
      * 查询数据条数

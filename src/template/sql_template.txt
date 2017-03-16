@@ -36,7 +36,7 @@ ${{updateSetColumn}}
         WHERE ${{primaryKeyColumn}} = #{${{primaryKeyAttr}}}
     </update>
     
-    <select id="get" resultType="${{packageVOClass}}" parameterType="${{packageQueryClass}}">
+    <select id="get" resultType="${{packageVOClass}}" parameterType="${{packageDOClass}}">
         SELECT 
             <include refid="select_base_column" />
         FROM
