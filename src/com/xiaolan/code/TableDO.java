@@ -103,6 +103,8 @@ public class TableDO {
             this.dataType = "Float";
         } else if (-1 != ",double,decimal,".indexOf("," + dataType + ",")) {// double
             this.dataType = "Double";
+        } else if (-1 != ",bigint,".indexOf("," + dataType + ",")) {// double
+            this.dataType = "Long";
         } else {// String
             this.dataType = "String";
         }
